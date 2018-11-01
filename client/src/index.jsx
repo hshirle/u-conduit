@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from 'semantic-ui-react'
 
 
 class App extends React.Component {
@@ -13,6 +14,7 @@ class App extends React.Component {
     return (
     <div>
       <h1>Hai</h1>
+      <Button>Click</Button>
     </div>
     )
   }
