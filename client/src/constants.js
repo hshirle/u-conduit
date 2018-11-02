@@ -30,8 +30,8 @@ export const conduits = [{
   abbr: 'PVC & HDPE'
 },{
   name: 'Rigid PVC Conduit, Type A',
-  abbr: 'PVC'
+  abbr: 'PVC-A'
 },{
   name: 'Rigid PVC Conduit, Type EB',
-  abbr: 'PVC'
+  abbr: 'PVC-EB'
 }]
