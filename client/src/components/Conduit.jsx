@@ -1,28 +1,25 @@
 import React, { Component, Fragment } from 'react'
-import { Form, Radio } from 'semantic-ui-react'
+import { Form, Button, Popup } from 'semantic-ui-react'
 import { conduits } from '../constants.js'
 
 export default class Conduit extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      value: ''
-    }
+
   }
-  render() { 
+  render() {
+    let { setConduit, currConduit } = this.props
     return (
-      <Form>
+      <Fragment>
         {conduits.map((conduit, i) => (
-          <Form.Field key={i}>
-            <Radio
-              label={conduit.abbr}
-              name='radioGroup'
-              value={conduit.abbr}
-            />
-          <div>{conduit.name}</div>
-          </Form.Field>
+            <Popup trigger={<Button 
+            toggle
+            active={currConduit === conduit.abbr ? true : false}
+            onClick={(e) => setConduit(e)}
+              value={conduit.abbr}>{conduit.abbr}</Button>
+            } content={conduit.name} />
           ))}
-      </Form>
+      </Fragment>
     );
   }
 }
