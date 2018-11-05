@@ -16,9 +16,17 @@ app.use(express.static(path.join(__dirname + '/../client/dist')));
     let $ = cheerio.load(data);
     let conduits = []
     $('tr').children().each((i, ele) => {
-      if ($(ele).siblings().length === 0)
-      console.log($(ele).text())
+      if ($(ele).siblings().length === 0 && $(ele).text().includes('Article')) {
+        let title = $(ele).text()
+        let name = title.match(/(?<=\-(.*?)(?=\())/)
+        let abbrs = title.match(/(?<=\()(.*?)(?=\))/g)
+        conduits.push({
+          name: name[1],
+          abbr: abbrs
+        })
+      }
     })
+    console.log(conduits)
   })
   .catch(err => console.log(err))
 
