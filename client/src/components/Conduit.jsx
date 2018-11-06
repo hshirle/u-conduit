@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Form, Button, Popup } from 'semantic-ui-react'
-import { conduits } from '../constants.js'
+import { Button, Popup } from 'semantic-ui-react'
 
 export default class Conduit extends Component {
   constructor(props) {
@@ -8,16 +7,22 @@ export default class Conduit extends Component {
 
   }
   render() {
-    let { setConduit, currConduit } = this.props
+    let { setConduit, selectedConduit, conduits } = this.props
     return (
       <Fragment>
         {conduits.map((conduit, i) => (
-            <Popup trigger={<Button 
-            toggle
-            active={currConduit === conduit.abbr ? true : false}
-            onClick={(e) => setConduit(e)}
-              value={conduit.abbr}>{conduit.abbr}</Button>
-            } content={conduit.name} />
+            <Popup
+            key={ i + 1 }
+            content={ conduit.name }
+            trigger={
+              <Button 
+                toggle
+                active={ selectedConduit.abbr === conduit.abbr ? true : false }
+                onClick={setConduit.bind(this,conduit)}
+                value={ conduit }>
+                { conduit.abbr }
+              </Button>
+            }  />
           ))}
       </Fragment>
     );
