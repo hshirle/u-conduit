@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname + '/../client/dist')));
 
 app.get('/conduits', (req, res) => (
-  axios.get('https://www.buildmyowncabin.com/nec/nec2014_chap9_table4.html')
+  axios.get(process.env.CONDUIT_TABLE)
   .then(({data}) => {
     let $ = cheerio.load(data);
     let conduits = []
@@ -20,12 +20,12 @@ app.get('/conduits', (req, res) => (
       let conduit = {}
       if (children.length === 1 && children.text().includes('Article')) {
         let title = $(ele).children().text()
-        let name = title.match(/(?<=\-(.*?)(?=\())/)[1]
+        let type = title.match(/(?<=\-(.*?)(?=\())/)[1]
         let abbrs = title.match(/(?<=\()(.*?)(?=\))/g)
-        if (name.includes('Type')) {
-          abbrs[0] += ' - ' + name.slice(6, name.indexOf(','))
+        if (type.includes('Type')) {
+          abbrs[0] += ' - ' + type.slice(6, type.indexOf(','))
         }
-        conduit.name = name
+        conduit.type = type
         conduit.abbr = abbrs.length > 1 ? abbrs.join(' & ') : abbrs[0]
         conduits.push(conduit)
         if (conduits[count].sizes) {
@@ -44,7 +44,50 @@ app.get('/conduits', (req, res) => (
     })
     res.send(conduits)
   })
-  .catch(err => console.log(err))
+  .catch(err => console.error(err))
+))
+
+app.get('/conduits', (req, res) => (
+  axios.get(process.env.WIRE_TABLE)
+  .then(({data}) => {
+    let $ = cheerio.load(data);
+    let wires = [{
+      type: 'THW/THHW',
+      sizes: []
+    },{
+      type: 'XHH/XHHW',
+      sizes: []
+    },{
+      type: 'THHN/THWN',
+      sizes: []
+    }]
+    $('tr').each((i, ele) => {
+      let children = $(ele).children()
+      if (children.length === 7 && $(children.get(6)).text() !== '—' ) {
+        let measure
+        let measureVal = $(children.get(0)).text().replace(/\t|\n/g, '')
+        if (measureVal.length === 2 || measureVal.length === 1) {
+          measure = 'AWG'
+        } else {
+          measure = 'kcmil'
+        }
+        wires[0].sizes.push({
+          [measure]: measureVal,
+          area: Number($(children.get(2)).text())
+        })
+        wires[1].sizes.push({
+          [measure]: measureVal,
+          area: Number($(children.get(4)).text())
+        })
+        wires[2].sizes.push({
+          [measure]: measureVal,
+          area: Number($(children.get(6)).text())
+        })
+      }
+    })
+    res.send(wires)
+  })
+  .catch(err => console.error(err))
 ))
 
 

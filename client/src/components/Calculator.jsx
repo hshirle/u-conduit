@@ -11,22 +11,23 @@ export default class Calculator extends Component {
     super(props);
     this.state = {
       selectedConduit: { abbr: '' },
-      selectedConduitSize: '',
+      conduitSize: '',
       conductor: []
     }
     this.setConduit = this.setConduit.bind(this)
+    this.setConduitSize = this.setConduitSize.bind(this)
   }
 
   setConduit(conduit) {
     this.setState({ selectedConduit: conduit})
   }
 
-  // setConduitSizes(e) {
-  //   this.setState({ selectedConduitSize: 'w'})
-  // }
+  setConduitSize(size) {
+    this.setState({ conduitSize: size })
+  }
 
   render() {
-    let { selectedConduit, conductor } = this.state
+    let { selectedConduit, conduitSize, conductor } = this.state
     let { conduits } = this.props
     return (
       <Fragment>
@@ -35,7 +36,7 @@ export default class Calculator extends Component {
             <Conduit selectedConduit={selectedConduit} conduits={conduits} setConduit={this.setConduit} />
           </Grid.Row>
           <Grid.Row>
-            {selectedConduit.sizes && <ConduitSizes selectedConduit={selectedConduit} conduits={conduits} />}
+            {selectedConduit.sizes && <ConduitSizes setSize={this.setConduitSize} conduitSize={conduitSize} selectedConduit={selectedConduit} conduits={conduits} />}
           </Grid.Row>
           <Conductor />
           <CirclePack conduit={selectedConduit} conductor={conductor} />

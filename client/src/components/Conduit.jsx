@@ -13,7 +13,7 @@ export default class Conduit extends Component {
         {conduits.map((conduit, i) => (
             <Popup
             key={ i + 1 }
-            content={ conduit.name }
+            content={ conduit.type }
             trigger={
               <Button 
                 toggle
