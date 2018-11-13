@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 
-export default class Conduit extends Component {
+export default class Conduits extends Component {
   constructor(props) {
     super(props);
 

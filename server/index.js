@@ -23,7 +23,7 @@ app.get('/conduits', (req, res) => (
         let type = title.match(/(?<=\-(.*?)(?=\())/)[1]
         let abbrs = title.match(/(?<=\()(.*?)(?=\))/g)
         if (type.includes('Type')) {
-          abbrs[0] += ' - ' + type.slice(6, type.indexOf(','))
+          abbrs[0] += '-' + type.slice(6, type.indexOf(','))
         }
         conduit.type = type
         conduit.abbr = abbrs.length > 1 ? abbrs.join(' & ') : abbrs[0]
@@ -47,7 +47,7 @@ app.get('/conduits', (req, res) => (
   .catch(err => console.error(err))
 ))
 
-app.get('/conduits', (req, res) => (
+app.get('/wires', (req, res) => (
   axios.get(process.env.WIRE_TABLE)
   .then(({data}) => {
     let $ = cheerio.load(data);
