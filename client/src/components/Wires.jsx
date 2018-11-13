@@ -6,7 +6,7 @@ export default class Wires extends Component {
     super(props);
   }
   render() {
-    let { wires } = this.props
+    let { wires, addWire } = this.props
     return (
       <span>{wires.map(wire => {
         let options = wire.sizes.map((size, i) => {
@@ -17,7 +17,7 @@ export default class Wires extends Component {
           }
         })
         return (
-            <Dropdown key={wire.type} button text={wire.type} options={options}/>
+            <Dropdown key={wire.type} onChange={addWire.bind(this)} selection multiple placeholder={wire.type} options={options}/>
           )
       })}</span>
     );

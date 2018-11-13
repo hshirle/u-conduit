@@ -27,10 +27,8 @@ export default class Calculator extends Component {
     this.setState({ conduitSize: size })
   }
   
-  addWire(wire) {
-    this.setState((state) => (
-      {totalWires: state.totalWires.push(wire)}
-    ))
+  addWire(e, wires) {
+    this.setState({ totalWires: wires.value})
   }
 
   render() {

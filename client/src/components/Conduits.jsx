@@ -10,6 +10,7 @@ export default class Conduits extends Component {
     let { setConduit, selectedConduit, conduits } = this.props
     return (
       <Fragment>
+        <Button.Group basic>
         {conduits.map((conduit, i) => (
             <Popup
             key={ i + 1 }
@@ -24,6 +25,7 @@ export default class Conduits extends Component {
               </Button>
             }  />
           ))}
+          </Button.Group>
       </Fragment>
     );
   }
